@@ -16,8 +16,11 @@ spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/room_rent_db?useUnico
 spring.datasource.username=${DB_USERNAME:root}
 spring.datasource.password=${DB_PASSWORD:your_password_here}
 
-# Redis（推荐使用完整连接串；本地默认无密码 redis://localhost:6379）
+# Redis（推荐使用完整连接串 REDIS_URL；host/port 写死为本地兜底，
+# 避免环境变量为空字符串时导致 'host' must not be empty 崩溃）
 spring.data.redis.url=${REDIS_URL:redis://localhost:6379}
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
 spring.data.redis.password=${REDIS_PASSWORD:}
 
 # MyBatis-Plus
