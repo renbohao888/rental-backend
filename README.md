@@ -42,6 +42,10 @@
 
 ## 云端部署（环境变量）
 
+> 💡 **不需要支付宝也能完整上线**：本项目内置**模拟支付**（`POST /api/pay/simulate`），
+> 前端订单页面点「模拟支付」即可把订单置为已支付。支付宝密钥（`ALIPAY_*`）可全部留空，
+> 仅真实支付宝收款才需要配置。短信验证码为测试模式（验证码打印在后端日志），不依赖短信服务商。
+
 | 环境变量 | 说明 | 示例 |
 |---|---|---|
 | `DB_URL` | MySQL JDBC 地址 | `jdbc:mysql://host:3306/room_rent_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8` |
