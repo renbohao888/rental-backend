@@ -16,6 +16,12 @@ spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/room_rent_db?useUnico
 spring.datasource.username=${DB_USERNAME:root}
 spring.datasource.password=${DB_PASSWORD:your_password_here}
 
+# 启动时自动建表（幂等：CREATE TABLE IF NOT EXISTS，不影响已有数据）
+# 适用于全新 MySQL 实例（如 Railway 托管数据库）首次启动自动创建全部 15 张表
+spring.sql.init.mode=always
+spring.sql.init.schema-locations=classpath:init_cloud.sql
+spring.sql.init.continue-on-error=true
+
 # Redis（推荐使用完整连接串 REDIS_URL；host/port 写死为本地兜底，
 # 避免环境变量为空字符串时导致 'host' must not be empty 崩溃）
 spring.data.redis.url=${REDIS_URL:redis://localhost:6379}
