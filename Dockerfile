@@ -10,11 +10,8 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 RUN mkdir -p /app/uploads
-ENV FILE_UPLOAD_PATH=/app/uploads \
-    SPRING_DATASOURCE_URL='jdbc:mysql://localhost:3306/room_rent_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8' \
-    SPRING_DATASOURCE_USERNAME=root \
-    SPRING_DATASOURCE_PASSWORD= \
-    SPRING_DATA_REDIS_HOST=localhost \
-    SPRING_DATA_REDIS_PORT=6379
+# 数据库等连接配置通过环境变量传入（DB_URL/DB_USERNAME/DB_PASSWORD/REDIS_HOST 等），
+# 不要在镜像里写死，避免覆盖云端环境变量。
+ENV FILE_UPLOAD_PATH=/app/uploads
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
