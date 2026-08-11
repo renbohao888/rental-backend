@@ -24,15 +24,15 @@ import java.util.Map;
 @CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class PayController {
 
-    @Value("${alipay.appId}")
+    @Value("${alipay.appId:}")
     private String appId;
-    @Value("${alipay.appPrivateKey}")
+    @Value("${alipay.appPrivateKey:}")
     private String privateKey;
-    @Value("${alipay.alipayPublicKey}")
+    @Value("${alipay.alipayPublicKey:}")
     private String publicKey;
-    @Value("${alipay.serverUrl}")
+    @Value("${alipay.serverUrl:}")
     private String serverUrl;
-    @Value("${alipay.domain}")
+    @Value("${alipay.domain:http://localhost:8080}")
     private String domain; // 你的外网穿透地址
 
     @Autowired

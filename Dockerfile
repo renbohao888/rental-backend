@@ -4,6 +4,9 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -q dependency:go-offline
 COPY src ./src
+# 云端部署使用"模板配置"（无敏感信息，全部通过环境变量注入）；
+# 本地真实 application.properties 含密码，不会进入镜像。
+RUN cp src/main/resources/application.properties.example src/main/resources/application.properties
 RUN mvn -q package -DskipTests
 
 FROM eclipse-temurin:21-jre
