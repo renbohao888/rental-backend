@@ -397,3 +397,19 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Dump completed on 2026-08-11 12:58:23
 
+-- ============================================================
+-- 种子数据：预置 管理员 / 房东 / 租客 账号（密码均为 123456）
+-- 幂等：账号已存在则跳过，不会重复插入、不会覆盖已有数据
+-- ============================================================
+INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
+SELECT '10000000', '管理员', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 0, '13800000001', 0
+FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '10000000');
+
+INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
+SELECT '88888888', '官方房东', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 1, '13800000100', 0
+FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '88888888');
+
+INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
+SELECT '11111111', 'YXY', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 2, '13800000003', 0
+FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '11111111');
+
