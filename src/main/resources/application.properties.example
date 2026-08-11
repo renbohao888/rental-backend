@@ -1,0 +1,44 @@
+# ============================================================
+#  配置模板：复制本文件为 application.properties 并填入真实信息
+#  （application.properties 已在 .gitignore 中，不会提交到 Git）
+#
+#  云端部署推荐使用环境变量覆盖，例如：
+#    DB_URL / DB_USERNAME / DB_PASSWORD
+#    REDIS_HOST / REDIS_PORT / REDIS_PASSWORD
+#    ALIPAY_APP_ID / ALIPAY_PRIVATE_KEY / ALIPAY_PUBLIC_KEY
+#    FILE_UPLOAD_PATH
+# ============================================================
+spring.application.name=demo
+
+# MySQL 数据库
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/room_rent_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8}
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD:your_password_here}
+
+# Redis
+spring.data.redis.host=${REDIS_HOST:localhost}
+spring.data.redis.port=${REDIS_PORT:6379}
+spring.data.redis.password=${REDIS_PASSWORD:}
+
+# MyBatis-Plus
+mybatis-plus.mapper-locations=classpath:mapper/*.xml
+mybatis-plus.type-aliases-package=com.example.demo.entity
+mybatis-plus.configuration.map-underscore-to-camel-case=true
+
+# 支付宝（当前为沙箱；生产请替换为正式密钥）
+alipay.appId=${ALIPAY_APP_ID:}
+alipay.appPrivateKey=${ALIPAY_PRIVATE_KEY:}
+alipay.alipayPublicKey=${ALIPAY_PUBLIC_KEY:}
+alipay.serverUrl=${ALIPAY_SERVER_URL:https://openapi-sandbox.dl.alipaydev.com/gateway.do}
+alipay.domain=${ALIPAY_DOMAIN:http://localhost:8080}
+
+# 订单支付超时时间（分钟）
+order.pay.timeout=3
+
+# 文件上传
+spring.servlet.multipart.max-file-size=100MB
+spring.servlet.multipart.max-request-size=200MB
+file.upload.path=${FILE_UPLOAD_PATH:./uploads}
+
+mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
