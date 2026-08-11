@@ -4,7 +4,7 @@
 #
 #  云端部署推荐使用环境变量覆盖，例如：
 #    DB_URL / DB_USERNAME / DB_PASSWORD
-#    REDIS_HOST / REDIS_PORT / REDIS_PASSWORD
+#    REDIS_URL / REDIS_PASSWORD
 #    ALIPAY_APP_ID / ALIPAY_PRIVATE_KEY / ALIPAY_PUBLIC_KEY
 #    FILE_UPLOAD_PATH
 # ============================================================
@@ -16,9 +16,8 @@ spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/room_rent_db?useUnico
 spring.datasource.username=${DB_USERNAME:root}
 spring.datasource.password=${DB_PASSWORD:your_password_here}
 
-# Redis
-spring.data.redis.host=${REDIS_HOST:localhost}
-spring.data.redis.port=${REDIS_PORT:6379}
+# Redis（推荐使用完整连接串；本地默认无密码 redis://localhost:6379）
+spring.data.redis.url=${REDIS_URL:redis://localhost:6379}
 spring.data.redis.password=${REDIS_PASSWORD:}
 
 # MyBatis-Plus

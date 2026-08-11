@@ -50,7 +50,8 @@
 |---|---|---|
 | `DB_URL` | MySQL JDBC 地址 | `jdbc:mysql://host:3306/room_rent_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8` |
 | `DB_USERNAME` / `DB_PASSWORD` | 数据库账号密码 | `root` / `********` |
-| `REDIS_HOST` / `REDIS_PORT` / `REDIS_PASSWORD` | Redis 连接 | `localhost` / `6379` / 空 |
+| `REDIS_URL` | Redis 完整连接串（含密码） | `redis://default:password@host:6379` |
+| `REDIS_PASSWORD` | 可选的 Redis 密码（若 URL 中已含可留空） | 空 |
 | `ALIPAY_APP_ID` / `ALIPAY_PRIVATE_KEY` / `ALIPAY_PUBLIC_KEY` | 支付宝密钥 | 沙箱或正式 |
 | `ALIPAY_DOMAIN` | 支付回调域名 | `https://your-domain.com` |
 | `FILE_UPLOAD_PATH` | 图片上传目录 | `/app/uploads` |
