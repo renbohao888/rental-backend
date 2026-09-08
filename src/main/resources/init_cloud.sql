@@ -19,15 +19,18 @@
 -- Current Database: `room_rent_db`
 --
 
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `room_rent_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
+USE `room_rent_db`;
 
 --
 -- Table structure for table `appointment`
 --
 
+DROP TABLE IF EXISTS `appointment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `appointment` (
+CREATE TABLE `appointment` (
   `id` bigint NOT NULL COMMENT '预约ID（雪花算法生成）',
   `user_id` bigint NOT NULL COMMENT '租客ID',
   `room_id` bigint NOT NULL COMMENT '房源ID',
@@ -52,9 +55,10 @@ CREATE TABLE IF NOT EXISTS `appointment` (
 -- Table structure for table `banner`
 --
 
+DROP TABLE IF EXISTS `banner`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `banner` (
+CREATE TABLE `banner` (
   `id` bigint NOT NULL COMMENT 'ID（雪花算法生成）',
   `title` varchar(100) DEFAULT NULL COMMENT '轮播图标题（描述）',
   `image_url` varchar(500) NOT NULL COMMENT '图片访问地址',
@@ -72,9 +76,10 @@ CREATE TABLE IF NOT EXISTS `banner` (
 -- Table structure for table `chat_message`
 --
 
+DROP TABLE IF EXISTS `chat_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `chat_message` (
+CREATE TABLE `chat_message` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `from_user_id` bigint NOT NULL COMMENT '发送方用户ID',
   `to_user_id` bigint NOT NULL COMMENT '接收方用户ID',
@@ -93,9 +98,10 @@ CREATE TABLE IF NOT EXISTS `chat_message` (
 -- Table structure for table `dispute`
 --
 
+DROP TABLE IF EXISTS `dispute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `dispute` (
+CREATE TABLE `dispute` (
   `id` bigint NOT NULL COMMENT '纠纷ID（雪花算法生成）',
   `order_id` bigint NOT NULL COMMENT '关联订单ID',
   `user_id` bigint NOT NULL COMMENT '发起人（租客）ID',
@@ -121,9 +127,10 @@ CREATE TABLE IF NOT EXISTS `dispute` (
 -- Table structure for table `evaluation`
 --
 
+DROP TABLE IF EXISTS `evaluation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `evaluation` (
+CREATE TABLE `evaluation` (
   `id` bigint NOT NULL COMMENT '评价ID（雪花算法生成）',
   `order_id` bigint NOT NULL COMMENT '订单ID',
   `user_id` bigint NOT NULL COMMENT '评价人（租客）ID',
@@ -147,9 +154,10 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
 -- Table structure for table `favorite`
 --
 
+DROP TABLE IF EXISTS `favorite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `favorite` (
+CREATE TABLE `favorite` (
   `id` bigint NOT NULL COMMENT '收藏ID（雪花算法生成）',
   `user_id` bigint NOT NULL COMMENT '租客用户ID',
   `room_id` bigint NOT NULL COMMENT '房源ID',
@@ -164,9 +172,10 @@ CREATE TABLE IF NOT EXISTS `favorite` (
 -- Table structure for table `friend`
 --
 
+DROP TABLE IF EXISTS `friend`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `friend` (
+CREATE TABLE `friend` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL COMMENT '申请方用户ID',
   `friend_id` bigint NOT NULL COMMENT '被申请方用户ID',
@@ -184,9 +193,10 @@ CREATE TABLE IF NOT EXISTS `friend` (
 -- Table structure for table `landlord_application`
 --
 
+DROP TABLE IF EXISTS `landlord_application`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `landlord_application` (
+CREATE TABLE `landlord_application` (
   `id` bigint NOT NULL COMMENT '申请ID（雪花算法生成）',
   `user_id` bigint NOT NULL COMMENT '申请人（租客）ID',
   `real_name` varchar(50) NOT NULL COMMENT '真实姓名',
@@ -212,9 +222,10 @@ CREATE TABLE IF NOT EXISTS `landlord_application` (
 -- Table structure for table `message`
 --
 
+DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `message` (
+CREATE TABLE `message` (
   `id` bigint NOT NULL COMMENT '主键ID',
   `type` varchar(32) DEFAULT NULL COMMENT '消息类型: share-分享房源, repair-报修反馈, dispute-纠纷消息, landlord-房东消息',
   `content` text COMMENT '消息内容',
@@ -235,9 +246,10 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- Table structure for table `notice`
 --
 
+DROP TABLE IF EXISTS `notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `notice` (
+CREATE TABLE `notice` (
   `id` bigint NOT NULL COMMENT '公告ID（雪花算法生成）',
   `title` varchar(200) NOT NULL COMMENT '公告标题',
   `content` text NOT NULL COMMENT '公告内容',
@@ -257,9 +269,10 @@ CREATE TABLE IF NOT EXISTS `notice` (
 -- Table structure for table `repair`
 --
 
+DROP TABLE IF EXISTS `repair`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `repair` (
+CREATE TABLE `repair` (
   `id` bigint NOT NULL COMMENT '报修ID（雪花算法生成）',
   `user_id` bigint NOT NULL COMMENT '报修人（租客）ID',
   `room_id` bigint NOT NULL COMMENT '报修房源ID',
@@ -284,9 +297,10 @@ CREATE TABLE IF NOT EXISTS `repair` (
 -- Table structure for table `room`
 --
 
+DROP TABLE IF EXISTS `room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `room` (
+CREATE TABLE `room` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL COMMENT '房源标题（如：靠近考点·安静单间）',
   `description` text COMMENT '房源描述',
@@ -296,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   `longitude` decimal(10,6) DEFAULT NULL COMMENT '经度（用于计算距离位置）',
   `rating` decimal(3,2) DEFAULT '5.00' COMMENT '平台评分（爬取/用户评价动态更新）',
   `tags` varchar(255) DEFAULT NULL COMMENT '房源标签（用逗号隔开，如：安静,考研专区,有空调）',
-  `status` tinyint DEFAULT '0' COMMENT '房源状态（0:待租，1:已锁定，2:已出租）',
+  `status` tinyint DEFAULT '0' COMMENT '房源状态（0:待审核，1:已上架可预订，2:已租出/锁定，3:已下架，4:审核驳回，5:已删除）',
   `version` int DEFAULT '0' COMMENT '乐观锁版本号（高并发下防止多人同时修改房态）',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -313,9 +327,10 @@ CREATE TABLE IF NOT EXISTS `room` (
 -- Table structure for table `room_order`
 --
 
+DROP TABLE IF EXISTS `room_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `room_order` (
+CREATE TABLE `room_order` (
   `id` bigint NOT NULL COMMENT '主键ID',
   `order_no` varchar(64) NOT NULL COMMENT '唯一订单号 (给用户看的，如：ORD20260716xxx)',
   `user_id` bigint NOT NULL COMMENT '下单人 (用户ID)',
@@ -325,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `room_order` (
   `total_amount` decimal(10,2) NOT NULL COMMENT '订单总金额',
   `check_in_date` date NOT NULL COMMENT '入住日期',
   `check_out_date` date NOT NULL COMMENT '退租日期',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '订单状态：0-待支付, 1-已支付, 2-已取消, 3-已完成',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '订单状态：0-待支付, 1-已支付待入住, 2-已入住, 3-退租核算中, 4-已完成, 5-已取消, 6-已拒绝',
   `alipay_trade_no` varchar(100) DEFAULT NULL COMMENT '支付宝交易流水号',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '下单时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -344,9 +359,10 @@ CREATE TABLE IF NOT EXISTS `room_order` (
 -- Table structure for table `system_config`
 --
 
+DROP TABLE IF EXISTS `system_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `system_config` (
+CREATE TABLE `system_config` (
   `id` bigint NOT NULL COMMENT '配置ID（雪花算法生成）',
   `config_key` varchar(50) NOT NULL COMMENT '配置键（唯一）',
   `config_value` varchar(500) NOT NULL COMMENT '配置值',
@@ -364,9 +380,10 @@ CREATE TABLE IF NOT EXISTS `system_config` (
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `account_no` varchar(30) NOT NULL COMMENT '系统分配的唯一账号',
   `nickname` varchar(50) NOT NULL COMMENT '用户昵称(可随时修改，可重复)',
@@ -396,20 +413,3 @@ CREATE TABLE IF NOT EXISTS `user` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-08-11 12:58:23
-
--- ============================================================
--- 种子数据：预置 管理员 / 房东 / 租客 账号（密码均为 123456）
--- 幂等：账号已存在则跳过，不会重复插入、不会覆盖已有数据
--- ============================================================
-INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
-SELECT '10000000', '管理员', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 0, '13800000001', 0
-FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '10000000');
-
-INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
-SELECT '88888888', '官方房东', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 1, '13800000100', 0
-FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '88888888');
-
-INSERT INTO `user` (`account_no`, `nickname`, `password`, `role`, `phone`, `audit_status`)
-SELECT '11111111', 'YXY', '$2a$10$sxcMbpcW7CotMxaVPB2muOpaenQqB6ecGYPu197An2JRpTmcAlsIi', 2, '13800000003', 0
-FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM `user` WHERE `account_no` = '11111111');
-

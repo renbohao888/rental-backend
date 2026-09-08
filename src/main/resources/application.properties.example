@@ -7,6 +7,7 @@
 #    REDIS_URL / REDIS_PASSWORD
 #    ALIPAY_APP_ID / ALIPAY_PRIVATE_KEY / ALIPAY_PUBLIC_KEY
 #    FILE_UPLOAD_PATH
+#    AI_API_KEY（大模型 API Key）
 # ============================================================
 spring.application.name=demo
 
@@ -17,13 +18,11 @@ spring.datasource.username=${DB_USERNAME:root}
 spring.datasource.password=${DB_PASSWORD:your_password_here}
 
 # 启动时自动建表（幂等：CREATE TABLE IF NOT EXISTS，不影响已有数据）
-# 适用于全新 MySQL 实例（如 Railway 托管数据库）首次启动自动创建全部 15 张表
 spring.sql.init.mode=always
 spring.sql.init.schema-locations=classpath:init_cloud.sql
 spring.sql.init.continue-on-error=true
 
-# Redis（推荐使用完整连接串 REDIS_URL；host/port 写死为本地兜底，
-# 避免环境变量为空字符串时导致 'host' must not be empty 崩溃）
+# Redis
 spring.data.redis.url=${REDIS_URL:redis://localhost:6379}
 spring.data.redis.host=localhost
 spring.data.redis.port=6379
@@ -31,8 +30,12 @@ spring.data.redis.password=${REDIS_PASSWORD:}
 
 # MyBatis-Plus
 mybatis-plus.mapper-locations=classpath:mapper/*.xml
-mybatis-plus.type-aliases-package=com.example.demo.entity
+mybatis-plus.type-aliases-package=com.anju.rental.entity
 mybatis-plus.configuration.map-underscore-to-camel-case=true
+
+# JWT 配置
+jwt.secret=${JWT_SECRET:room-rent-system-secret-key-2025-123456}
+jwt.expiration=${JWT_EXPIRATION:86400000}
 
 # 支付宝（当前为沙箱；生产请替换为正式密钥）
 alipay.appId=${ALIPAY_APP_ID:}
@@ -49,4 +52,18 @@ spring.servlet.multipart.max-file-size=100MB
 spring.servlet.multipart.max-request-size=200MB
 file.upload.path=${FILE_UPLOAD_PATH:./uploads}
 
+# MyBatis-Plus SQL 日志（开发环境开启，生产环境请关闭）
 mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+
+# SpringDoc OpenAPI 配置
+springdoc.api-docs.path=/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.tags-sorter=alpha
+springdoc.swagger-ui.operations-sorter=alpha
+
+# Spring AI 大模型配置（接入通义千问 / DeepSeek / OpenAI 等兼容 API）
+# 通义千问 DashScope API 示例：
+spring.ai.openai.api-key=${AI_API_KEY:your-api-key}
+spring.ai.openai.base-url=${AI_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
+spring.ai.openai.chat.options.model=${AI_MODEL:qwen-plus}
+spring.ai.openai.chat.options.temperature=0.7
