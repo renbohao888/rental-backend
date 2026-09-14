@@ -83,7 +83,7 @@ public class AiServiceImpl implements AiService {
     private String buildAiGreeting() {
         try {
             return chatClientBuilder.build().prompt()
-                    .system("你是安居房屋租赁平台的智能助手，请用热情友好的语气欢迎用户。回复200字以内。")
+                    .system("你是短期房屋租赁管理系统的智能助手，请用热情友好的语气欢迎用户。回复200字以内。")
                     .user("你好").call().content();
         } catch (Exception e) {
             log.warn("AI greeting failed: {}", e.getMessage());
@@ -104,7 +104,7 @@ public class AiServiceImpl implements AiService {
                         .append(" | tags=").append(r.getTags()).append("\n");
             }
             return chatClientBuilder.build().prompt()
-                    .system("你是安居房屋租赁平台的智能助手。根据真实房源数据生成推荐回复，口语化、突出卖点，300字以内。\n房源数据：\n" + ctx)
+                    .system("你是短期房屋租赁管理系统的智能助手。根据真实房源数据生成推荐回复，口语化、突出卖点，300字以内。\n房源数据：\n" + ctx)
                     .user(userMsg).call().content();
         } catch (Exception e) {
             log.warn("AI reply failed: {}", e.getMessage());
@@ -170,7 +170,7 @@ public class AiServiceImpl implements AiService {
     }
 
     private String buildGreeting() {
-        return "您好！我是安居租赁助手，平台房源信息我都掌握~\n\n" +
+        return "您好！我是短期租赁助手，平台房源信息我都掌握~\n\n" +
                 "您可以告诉我：\n· 预算，比如“1500元以内的房源”\n" +
                 "· 区域，比如“天河区的房子”\n· 户型，比如“两室一厅”\n" +
                 "· 关键词，比如“近地铁、精装”\n\n下面是平台当前的热门房源：";

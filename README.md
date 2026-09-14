@@ -1,6 +1,6 @@
-# 🏠 安居房屋租赁平台 · 后端
+# 短期房屋租赁管理系统（全栈开发）· 后端
 
-基于 Spring Boot 3 + MyBatis-Plus + MySQL + Redis 的房屋租赁平台后端 API，提供**租客 / 房东 / 管理员**三端接口，内置 JWT 登录鉴权、支付宝沙箱支付、AI 房源推荐助手。
+基于 Spring Boot 3 + MyBatis-Plus + MySQL + Redis 的房屋租赁管理系统后端 API，提供**租客 / 房东 / 管理员**三端接口，内置 **Redis 缓存热门房源**、**JWT + 拦截器登录校验与角色鉴权**、支付宝沙箱支付、AI 房源推荐助手。前端仓库：[rental-frontend](https://github.com/renbohao888/rental-frontend)。
 
 ## 技术栈
 
@@ -16,6 +16,14 @@
 - **房东端**：房源发布管理、房态日历、订单、账单、评价回复、维修处理、营销
 - **管理后台**：用户管理、房源审核、订单、公告、轮播图、纠纷仲裁、数据统计
 - **通用**：AI 租赁助手（意图解析 + 房源推荐）、深色主题、滚动动画
+
+## 核心实现（与简历对应）
+
+- **数据库设计**：`sql/init.sql` 共 **15 张表**（用户 / 房源 / 订单 / 预约 / 报修 / 评价 / 纠纷 / 账单 / 轮播图 / 公告 / 聊天 / 系统配置等），订单表采用**逻辑删除 + 房源标题/封面/押金快照**，`uk_order_no` 保证订单号唯一。
+- **三端接口**：租客端（房源检索、下单支付、报修、收藏、评价）、房东端（房源发布管理、订单处理、账单）、管理后台（用户/房源审核、订单、数据统计），统一 `Result` 返回结构 + 全局异常处理。
+- **Redis 缓存热门房源**：`@Cacheable(value = "hotRooms")` + `RedisCacheManager`（hotRooms TTL 3 分钟、全局默认 5 分钟、Jackson JSON 序列化），缓解热门房源查询对 MySQL 的压力。
+- **JWT + 拦截器**：`WebConfigJwtInterceptor` 拦截 `/api/**` 校验 `Authorization`，解析出 `userId` / `role` 挂到 request；配合自定义注解 `@RequiresRoles` 做角色鉴权（401 / 403 统一 JSON），Redis 存 token 黑名单支持登出。
+- **并发下单防重复预订**：以房源为粒度加 Redis 分布式锁（`SETNX + 过期 + value 校验释放`），在锁的临界区内通过独立 Bean `RoomOrderTxService#createOrderInTx`（`@Transactional`）完成「时间重叠校验 + 订单落库」，**保证事务提交后才释放锁**。
 
 ## 本地运行
 

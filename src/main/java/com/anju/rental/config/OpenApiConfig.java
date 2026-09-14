@@ -23,7 +23,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("安居房屋租赁平台 API")
+                        .title("短期房屋租赁管理系统 API")
                         .version("1.0.0")
                         .description("基于 Spring Boot 3 + Vue 3 的全栈房屋租赁系统后端接口文档\n\n"
                                 + "角色说明：0-管理员 | 1-房东 | 2-租客")

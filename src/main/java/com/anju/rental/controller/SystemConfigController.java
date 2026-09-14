@@ -80,7 +80,7 @@ public class SystemConfigController {
     @GetMapping("/platform/name")
     public Result<String> getPlatformName() {
         String name = configService.getConfigValue("platform_name");
-        return Result.success(name != null ? name : "安居房屋租赁平台");
+        return Result.success(name != null ? name : "短期房屋租赁管理系统");
     }
 
     /**
