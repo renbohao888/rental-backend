@@ -1,6 +1,6 @@
 # 短期房屋租赁管理系统（全栈开发）· 后端
 
-基于 Spring Boot 3 + MyBatis-Plus + MySQL + Redis 的房屋租赁管理系统后端 API，提供**租客 / 房东 / 管理员**三端接口，内置 **Redis 缓存热门房源**、**JWT + 拦截器登录校验与角色鉴权**、支付宝沙箱支付、AI 房源推荐助手。前端仓库：[rental-frontend](https://github.com/renbohao888/rental-frontend)。
+基于 Spring Boot 3 + MyBatis-Plus + MySQL + Redis 的房屋租赁管理系统后端 API，提供**租客 / 房东 / 管理员**三端接口，内置 **Redis 缓存热门房源**、**JWT + 拦截器登录校验与角色鉴权（支持登出黑名单）**、支付宝沙箱支付、AI 房源推荐助手。前端仓库：[rental-frontend](https://github.com/renbohao888/rental-frontend)。
 
 ## 技术栈
 
@@ -16,6 +16,13 @@
 - **房东端**：房源发布管理、房态日历、订单、账单、评价回复、维修处理、营销
 - **管理后台**：用户管理、房源审核、订单、公告、轮播图、纠纷仲裁、数据统计
 - **通用**：AI 租赁助手（意图解析 + 房源推荐）、深色主题、滚动动画
+
+## 工程化能力（可选，便于部署与排障）
+
+- **统一异常处理**：自定义 `BizException` 携带业务错误码（400/401/403/404/500），由 `GlobalExceptionHandler` 统一转换为 `Result` 返回；同时兜底处理参数校验、请求体解析、上传超限、404 等常见异常。**不再依赖对异常提示语做字符串匹配来推断错误码**。
+- **登出与 Token 黑名单**：`POST /api/user/logout` 把当前 Token 以 MD5 摘要为 key 写入 Redis（TTL 与 Token 剩余有效期对齐），拦截器每次校验时命中黑名单即视为登录失效；Redis 异常时按「未拉黑」放行（fail-open），保证认证链路不被缓存故障拖垮。
+- **健康检查**：`GET /api/health` 探测 MySQL / Redis 连通性，正常返回 `code=200`，依赖不可用返回 `code=503`；Dockerfile 已配置 `HEALTHCHECK`。
+- **单元测试**：覆盖 JWT 签发/解析/过期、拦截器鉴权分支（401/403/黑名单/Bearer 前缀）、黑名单服务 fail-open、全局异常映射等（`mvnw test`）。
 
 ## 核心实现（与简历对应）
 
@@ -83,6 +90,8 @@ docker run -d -p 8080:8080 --name rental-backend \
 ## 接口说明
 
 - 登录/注册：`POST /api/user/login`、`POST /api/user/register`、`POST /api/user/smsLogin`
+- 登出：`POST /api/user/logout`（需携带 Token，登出后该 Token 立即失效）
 - 房源：`GET /api/room/list`、`GET /api/room/detail/{id}`
 - AI 助手：`POST /api/ai/chat`
-- 除标注外的接口均需在 Header 携带 `Authorization: <token>`
+- 健康检查：`GET /api/health`（公开，返回 MySQL / Redis 连通状态）
+- 除标注为公开的接口外，均需在 Header 携带 `Authorization: <token>`（也兼容 `Authorization: Bearer <token>`）

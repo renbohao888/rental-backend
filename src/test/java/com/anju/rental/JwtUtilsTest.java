@@ -2,8 +2,8 @@ package com.anju.rental;
 
 import com.anju.rental.common.JwtUtils;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * JWT 工具类单元测试
+ * <p>
+ * 注意：JwtUtils 的密钥配置是静态全局的，为避免用例间相互影响，
+ * 每个用例执行前统一重置为基准配置。
+ * </p>
  */
 class JwtUtilsTest {
 
+    private static final String BASE_SECRET = "test-jwt-secret-for-unit-testing-2025";
+
     @BeforeAll
     static void setUp() {
-        JwtUtils.setConfig("test-jwt-secret-for-unit-testing-2025", 3600000L);
+        JwtUtils.setConfig(BASE_SECRET, 3600000L);
+    }
+
+    @BeforeEach
+    void resetConfig() {
+        JwtUtils.setConfig(BASE_SECRET, 3600000L);
     }
 
     @Test
@@ -78,5 +89,28 @@ class JwtUtilsTest {
         // 相同参数生成的 Token 可能因时间戳不同而不同
         assertNotNull(token1);
         assertNotNull(token2);
+    }
+
+    @Test
+    @DisplayName("Token 超过有效期后解析失败")
+    void testExpiredToken() throws InterruptedException {
+        // 有效期设为 1ms，生成后等待其过期
+        JwtUtils.setConfig(BASE_SECRET, 1L);
+        String token = JwtUtils.generateToken(1L, 2);
+
+        Thread.sleep(20);
+
+        assertThrows(Exception.class, () -> JwtUtils.parseToken(token));
+    }
+
+    @Test
+    @DisplayName("不同用户生成的 Token 可正确解析出各自身份")
+    void testTokenUniquenessAcrossUsers() {
+        String tokenA = JwtUtils.generateToken(1L, 2);
+        String tokenB = JwtUtils.generateToken(2L, 2);
+
+        assertNotEquals(tokenA, tokenB);
+        assertEquals(1L, JwtUtils.parseToken(tokenA).get("userId", Long.class));
+        assertEquals(2L, JwtUtils.parseToken(tokenB).get("userId", Long.class));
     }
 }

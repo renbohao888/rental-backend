@@ -36,6 +36,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
+                        // 健康检查（容器编排 / 负载均衡探测，无需登录）
+                        "/api/health",
+
                         // 用户认证相关（未登录时必须可访问）
                         "/api/user/login",
                         "/api/user/loginByPhone",

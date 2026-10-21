@@ -9,7 +9,7 @@
 #    FILE_UPLOAD_PATH
 #    AI_API_KEY（大模型 API Key）
 # ============================================================
-spring.application.name=demo
+spring.application.name=anju-house-rental-platform
 
 # MySQL 数据库
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

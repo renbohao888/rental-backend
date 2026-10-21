@@ -5,6 +5,8 @@ import com.anju.rental.annotation.RequiresRoles;
 import com.anju.rental.common.FileUploadUtils;
 import com.anju.rental.common.Result;
 import com.anju.rental.entity.User;
+import com.anju.rental.interceptor.JwtInterceptor;
+import com.anju.rental.service.TokenBlacklistService;
 import com.anju.rental.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private FileUploadUtils fileUploadUtils;
+
+    @Autowired
+    private TokenBlacklistService tokenBlacklistService;
 
     /**
      * 账号密码注册
@@ -357,6 +362,19 @@ public class UserController {
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "获取用户信息失败");
         }
+    }
+
+    /**
+     * 退出登录：将当前 Token 加入黑名单，使其在自然过期前立即失效。
+     * <p>需携带有效 Token 调用（未登录时拦截器会直接返回 401）。</p>
+     */
+    @PostMapping("/logout")
+    public Result<String> logout(HttpServletRequest request) {
+        Object token = request.getAttribute(JwtInterceptor.ATTR_TOKEN);
+        if (token instanceof String tokenStr) {
+            tokenBlacklistService.blacklist(tokenStr);
+        }
+        return Result.success("已退出登录");
     }
 
     /**

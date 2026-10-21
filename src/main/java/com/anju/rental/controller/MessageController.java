@@ -14,7 +14,7 @@ import java.util.Map;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/message")
-@RequiresRoles({2})
+@RequiresRoles({0, 1, 2})
 public class MessageController {
 
     @Autowired

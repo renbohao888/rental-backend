@@ -43,3 +43,6 @@ uploads/
 *.log
 logs/
 
+
+### 本地工具缓存（不提交） ###
+.workbuddy/
